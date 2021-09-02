@@ -29,8 +29,6 @@ public class PersonRepository {
     }
     @Transactional
     public void insert(Person person){
-        //entityManager.getTransaction().begin();
         entityManager.persist(person);
-        //entityManager.getTransaction().commit();
     }
 }
