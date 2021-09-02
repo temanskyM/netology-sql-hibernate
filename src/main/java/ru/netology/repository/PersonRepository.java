@@ -21,11 +21,9 @@ public class PersonRepository {
     private EntityManager entityManager;
 
     public List<Person> getPersonsByCity(String city) {
-
-        List<Person> cities = entityManager.createQuery(getPersonsByCityQuery, Person.class)
+        return entityManager.createQuery(getPersonsByCityQuery, Person.class)
                 .setParameter("city", city)
                 .getResultList();
-        return cities;
     }
     @Transactional
     public void insert(Person person){
