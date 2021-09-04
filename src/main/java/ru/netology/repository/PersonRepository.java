@@ -1,32 +1,18 @@
 package ru.netology.repository;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.netology.repository.entity.Person;
 import ru.netology.repository.entity.PersonKey;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
-public class PersonRepository {
-    private static final String getPersonsByCityQuery = "SELECT p FROM Person p where p.cityOfLiving = :city";
-    @PersistenceContext
-    private EntityManager entityManager;
+public interface PersonRepository extends CrudRepository<Person, PersonKey> {
+    List<Person> findPersonsByCityOfLiving(String city);
 
-    public List<Person> getPersonsByCity(String city) {
-        return entityManager.createQuery(getPersonsByCityQuery, Person.class)
-                .setParameter("city", city)
-                .getResultList();
-    }
-    @Transactional
-    public void insert(Person person){
-        entityManager.persist(person);
-    }
+    List<Person> findPersonsByPersonKeyAgeLessThan(int age);
+
+    Optional<Person> findPersonByPersonKeyNameAndPersonKeySurname(String name, String surname);
 }
